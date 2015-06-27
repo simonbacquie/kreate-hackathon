@@ -15,4 +15,4 @@ Example:
 
     bundle exec ruby main.rb 5
 
-There are a total of 15 problems. You can see the original graphs under the images/ folder, which are photographs from a whiteboard at my previous employer's office, plus my own vertex mapping stuff laid on top.
+There are a total of 15 problems. You can see the original graphs under the `images/` folder, which are photographs from a whiteboard at my previous employer's office, plus my own vertex mapping stuff laid on top. The actual data structures representing the graphs can be seen under the `/json` folder.
