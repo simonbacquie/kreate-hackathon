@@ -15,6 +15,11 @@ class Graph
     # total number of connections, could be: total in degrees - total out degrees (or the other way around?)
   end
 
+  def solveable?
+    # we use @matrix.length to count the number of vertices in the graph
+    @matrix.length < 3 || eulerian_cycle_exists? || eulerian_path_exists?
+  end
+
   def eulerian_cycle_exists?
     # degree of every vertex is even?
     # OR indegree of every vertex = outdegree of every vertex
@@ -25,8 +30,9 @@ class Graph
     # WHAT THE HELL WAS END_NODE EVEN SUPPOSED TO BE FOR?
     # overall_degrees_fit_eulerian_path? && start_vertex_fits_eulerian_path? && end_vertex_fits_eulerian_path?
     # overall_degrees_fit_eulerian_path? && first_path_vertex_fits_eulerian_path?(vertices_with_different_indegree_and_outdegree.first) && second_path_vertex_fits_eulerian_path?(vertices_with_different_indegree_and_outdegree.last)
-    require 'pry'; binding.pry
-    overall_degrees_fit_eulerian_path? && vertices_with_different_in_out_degrees_match_eulerian_path_rules?(vertices_with_different_indegree_and_outdegree)
+    # require 'pry'; binding.pry
+    # overall_degrees_fit_eulerian_path? && vertices_with_different_in_out_degrees_match_eulerian_path_rules?(vertices_with_different_indegree_and_outdegree)
+    overall_degrees_fit_eulerian_path? && path_vertex_check(vertices_with_different_indegree_and_outdegree)
   end
 
   def overall_degrees_fit_eulerian_path?
@@ -46,6 +52,7 @@ class Graph
     end.compact
   end
 
+=begin
   def vertices_with_different_in_out_degrees_match_eulerian_path_rules? vertices_array
     # we have to do some funny stuff here, since we're checking BOTH vertices with differing in/out degrees, but don't want to be tripped up by the order in which they come back
     require 'pry'; binding.pry
@@ -59,6 +66,7 @@ class Graph
     require 'pry'; binding.pry
     original && flipped
   end
+=end
 
   def path_vertex_check vertices_array
     first, second = vertices_array.first, vertices_array.last
@@ -68,16 +76,16 @@ class Graph
       vertex_outdegree(second) == vertex_indegree(second) - 1))
   end
 
-  def first_path_vertex_fits_eulerian_path? vertex
+  # def first_path_vertex_fits_eulerian_path? vertex
     # one of those 2 vertices has out-degree with one greater than in-degree?
-    require 'pry'; binding.pry
-    vertex_outdegree(vertex) == vertex_indegree(vertex) - 1
-  end
+    # require 'pry'; binding.pry
+    # vertex_outdegree(vertex) == vertex_indegree(vertex) - 1
+  # end
 
-  def second_path_vertex_fits_eulerian_path? vertex
+  # def second_path_vertex_fits_eulerian_path? vertex
     # the other vertex has in-degree with one greater than out-degree?
-    vertex_indegree(vertex) == vertex_outdegree(vertex) + 1
-  end
+    # vertex_indegree(vertex) == vertex_outdegree(vertex) + 1
+  # end
 
   def vertex_degree_even? index
     vertex_indegree(index).even?
