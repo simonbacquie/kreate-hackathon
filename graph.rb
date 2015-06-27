@@ -6,12 +6,11 @@ class Graph
     @history = []
   end
 
-  def solution_foreseeable?
-    # we use @matrix.length to count the number of vertices in the graph
-    # if the graph has less than 3 vertices our fancy rules of math don't
-    # apply that well here, and we can go ahead and brute force it
-    @matrix.length < 3 || eulerian_cycle_exists? || eulerian_path_exists?
+  def clone
+    Marshal.load(Marshal.dump(self))
   end
+
+  # MATH RULES THAT WE NEED TO FOLLOW
 
   def eulerian_cycle_exists?
     # To have a Eulerian Cycle:
@@ -51,6 +50,8 @@ class Graph
       vertex_outdegree(second) == vertex_indegree(second) - 1))
   end
 
+  # HELPER FUNCTIONS FOR MATH RULES
+
   def vertex_degree_even? index
     vertex_indegree(index).even?
   end
@@ -67,7 +68,7 @@ class Graph
     @matrix[index].reduce(:+)
   end
 
-# ADVANCING
+  # ADVANCING
 
   def advanceable?
     available_advances.length == 1 || eulerian_cycle_exists? || eulerian_path_exists?
@@ -96,10 +97,6 @@ class Graph
   def solution
     s = @history
     s.unshift(@original_start_node)
-  end
-
-  def clone
-    Marshal.load(Marshal.dump(self))
   end
 
 end
