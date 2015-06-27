@@ -1,10 +1,9 @@
 class Graph
-  attr_accessor :eulerian_cycle_node, :start_node, :end_node, :matrix, :edges_crossed, :original_number_of_connections, :original_start_node, :history
+  attr_accessor :current_node, :matrix, :original_start_node, :history
 
   def initialize matrix
     @matrix = matrix
     @history = []
-    @edges_crossed = 0
   end
 
   def solution_foreseeable?
@@ -77,14 +76,13 @@ class Graph
   def advance_to index
     # require 'pry'; binding.pry
     @history << index
-    @edges_crossed += 1
-    @matrix[@start_node][index] -= 1 unless @matrix[@start_node][index].zero?
-    @matrix[index][@start_node] -= 1 unless @matrix[index][@start_node].zero?
-    @start_node = index
+    @matrix[@current_node][index] -= 1 unless @matrix[@current_node][index].zero?
+    @matrix[index][@current_node] -= 1 unless @matrix[index][@current_node].zero?
+    @current_node = index
   end
 
   def available_advances
-    @matrix[@start_node].each_with_index.map{|x,i| i if x > 0}.compact
+    @matrix[@current_node].each_with_index.map{|x,i| i if x > 0}.compact
   end
 
   def connections_open?

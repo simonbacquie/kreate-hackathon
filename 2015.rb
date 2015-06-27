@@ -7,9 +7,8 @@ queue = []
 finished = []
 (0..og.matrix.length-1).each do |starting_vertex|
   g = og.clone
-  g.start_node = starting_vertex
+  g.current_node = starting_vertex
   g.original_start_node = starting_vertex
-  g.eulerian_cycle_node = starting_vertex
   g.available_advances.each do |aa|
     h = g.clone
     h.advance_to(aa)
