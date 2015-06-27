@@ -1,5 +1,5 @@
 class Graph
-  attr_accessor :eulerian_cycle_node, :start_node, :end_node, :matrix, :edges_crossed, :original_number_of_connections, :history
+  attr_accessor :eulerian_cycle_node, :start_node, :end_node, :matrix, :edges_crossed, :original_number_of_connections, :original_start_node, :history
 
   def initialize matrix
     @matrix = matrix
@@ -73,7 +73,7 @@ class Graph
 # ADVANCING
 
   def advanceable?
-    eulerian_cycle_exists? || eulerian_path_exists?
+    available_advances.length < 2 || eulerian_cycle_exists? || eulerian_path_exists?
   end
 
   def advance_to index
@@ -100,7 +100,14 @@ class Graph
     # start_node is equal to eulerian_cycle_node
     # @edges_crossed == @original_number_of_connections && @start_node == @eulerian_cycle_node
     # require 'pry'; binding.pry
-    !connections_open? && @start_node == @eulerian_cycle_node
+    # !connections_open? && (@start_node == @eulerian_cycle_node || @history.length == @matrix.length + 1)
+    # !connections_open? && (@start_node == @eulerian_cycle_node)
+    !connections_open?
+  end
+
+  def solution
+    s = @history
+    s.unshift(@original_start_node)
   end
 
   def clone
