@@ -1,13 +1,14 @@
 class Graph
   attr_accessor :eulerian_cycle_node, :start_node, :end_node, :matrix, :edges_crossed, :original_number_of_connections, :history
 
-  def initialize
-    @matrix = [
-      [0, 1, 0, 1],
-      [1, 0, 1, 1],
-      [0, 1, 0, 1],
-      [1, 1, 1, 0]
-    ]
+  def initialize matrix
+    @matrix = matrix
+    # @matrix = [
+    #   [0, 1, 0, 1],
+    #   [1, 0, 1, 1],
+    #   [0, 1, 0, 1],
+    #   [1, 1, 1, 0]
+    # ]
     @history = []
     @edges_crossed = 0
     # @original_number_of_connections = @matrix.flatten.reduce(:+)
@@ -15,17 +16,28 @@ class Graph
   end
 
   def eulerian_cycle_exists?
-    # degree of every vertex has to be even
+    # degree of every vertex is even?
+    # OR indegree of every vertex = outdegree of every vertex
     (0..@matrix.length-1).map{|x| x if vertex_degree_even?(x) && vertex_indegree(x) > 0}.compact.any?
   end
 
   def eulerian_path_exists?
-    overall_degrees_fit_eulerian_path? && start_vertex_fits_eulerian_path? && end_vertex_fits_eulerian_path?
+    # WHAT THE HELL WAS END_NODE EVEN SUPPOSED TO BE FOR?
+    # overall_degrees_fit_eulerian_path? && start_vertex_fits_eulerian_path? && end_vertex_fits_eulerian_path?
+    # overall_degrees_fit_eulerian_path? && first_path_vertex_fits_eulerian_path?(vertices_with_different_indegree_and_outdegree.first) && second_path_vertex_fits_eulerian_path?(vertices_with_different_indegree_and_outdegree.last)
+    require 'pry'; binding.pry
+    overall_degrees_fit_eulerian_path? && vertices_with_different_in_out_degrees_match_eulerian_path_rules?(vertices_with_different_indegree_and_outdegree)
   end
 
-  # each vertex except 2 have the same in-degree as out-degree
   def overall_degrees_fit_eulerian_path?
+    # each vertex except 2 have the same in-degree as out-degree?
     vertices_with_different_indegree_and_outdegree.length == 2
+  end
+
+  def overall_degrees_fit_eulerian_cycle?
+    (0..@matrix.length-1).map do |x|
+      x if vertex_indegree(x) == vertex_outdegree(x)
+    end.compact.length == @matrix.length
   end
 
   def vertices_with_different_indegree_and_outdegree
@@ -34,31 +46,37 @@ class Graph
     end.compact
   end
 
-  def start_vertex_fits_eulerian_path?
-    # one of those 2 vertices has out-degree with one greater than in-degree
-    vertex_outdegree(@start_node) == vertex_indegree(@start_node) - 1
+  def vertices_with_different_in_out_degrees_match_eulerian_path_rules? vertices_array
+    # we have to do some funny stuff here, since we're checking BOTH vertices with differing in/out degrees, but don't want to be tripped up by the order in which they come back
+    require 'pry'; binding.pry
+    first, second = vertices_array.first, vertices_array.last
+    original = first_path_vertex_fits_eulerian_path?(first) && second_path_vertex_fits_eulerian_path?(second)
+
+    require 'pry'; binding.pry
+    second, first = vertices_array.first, vertices_array.last
+    flipped = first_path_vertex_fits_eulerian_path?(first) && second_path_vertex_fits_eulerian_path?(second)
+
+    require 'pry'; binding.pry
+    original && flipped
   end
 
-  def end_vertex_fits_eulerian_path?
-    # the other vertex has in-degree with one greater than out-degree
-    vertex_indegree(@start_node) == vertex_outdegree(@start_node) + 1
+  def path_vertex_check vertices_array
+    first, second = vertices_array.first, vertices_array.last
+    ((vertex_outdegree(second) == vertex_indegree(second) + 1 &&
+      vertex_outdegree(first) == vertex_indegree(first) - 1) ||
+    (vertex_outdegree(first) == vertex_indegree(first) + 1 &&
+      vertex_outdegree(second) == vertex_indegree(second) - 1))
   end
 
-  def total_vertices_count
-    nil
+  def first_path_vertex_fits_eulerian_path? vertex
+    # one of those 2 vertices has out-degree with one greater than in-degree?
+    require 'pry'; binding.pry
+    vertex_outdegree(vertex) == vertex_indegree(vertex) - 1
   end
 
-  def odd_vertices_count
-    nil
-  end
-
-  def even_vertices_count
-    nil
-  end
-
-
-  def same_even_and_odd_vertices_count
-    nil
+  def second_path_vertex_fits_eulerian_path? vertex
+    # the other vertex has in-degree with one greater than out-degree?
+    vertex_indegree(vertex) == vertex_outdegree(vertex) + 1
   end
 
   def vertex_degree_even? index

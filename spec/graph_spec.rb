@@ -1,13 +1,13 @@
 require 'rspec'
 require 'pry'
-require '/home/simon/Development/hackathon2015/graph.rb'
+require_relative '../graph'
 # require '/home/simon/Development/hackathon2015/2015.rb'
 
 describe Graph do
 
   context 'starting graph' do
     before do
-      @graph = Graph.new
+      @graph = Graph.new nil
       @graph.matrix = [
         [0, 1, 0, 1],
         [1, 0, 1, 1],
@@ -40,7 +40,7 @@ describe Graph do
   context 'partially broken away graph' do
 
     before do
-      @graph = Graph.new
+      @graph = Graph.new nil
       @graph.matrix = [
         [0, 1, 0, 1],
         [1, 0, 1, 0],
