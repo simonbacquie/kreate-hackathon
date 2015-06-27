@@ -26,6 +26,12 @@ finished = []
     # require 'pry'; binding.pry
     h.advance_to(aa)
     puts "h is advanceable, start_node: #{h.start_node}, end_node: #{h.end_node}, eulerian_cycle_node: #{h.eulerian_cycle_node}"
+    # HERE
+    require 'pry'; binding.pry
+    if h.finished?
+      finished << h
+      next
+    end
     queue << h if h.advanceable?
     if !h.advanceable?
       if h.start_node == 3
@@ -42,12 +48,18 @@ end
 
 until queue.empty? do
   # puts 'begin until loop'
-  # require 'pry'; binding.pry
+  require 'pry'; binding.pry
   # queue.each do |q|
     q = queue.pop
-        if q.history == [2,3,1,0]
+    require 'pry'; binding.pry
+    if q.finished?
+      require 'pry'; binding.pry
+      finished << q
+      next
+    end
+        # if q.history == [2,3,1,0]
           require 'pry'; binding.pry
-        end
+        # end
     # require 'pry'; binding.pry
     q.available_advances.each do |qaa|
       qh = q.clone
@@ -58,9 +70,9 @@ until queue.empty? do
       else
         puts "qh is advanceable, start_node: #{qh.start_node}, end_node: #{qh.end_node}, eulerian_cycle_node: #{qh.eulerian_cycle_node}"
         puts qh.history.join(', ')
-        if qh.history == [2,3,1,0]
+        # if qh.history == [2,3,1,0]
           require 'pry'; binding.pry
-        end
+        # end
         queue << qh if qh.advanceable?
       end
     end

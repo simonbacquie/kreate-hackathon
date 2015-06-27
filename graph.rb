@@ -5,8 +5,6 @@ class Graph
     @matrix = matrix
     @history = []
     @edges_crossed = 0
-    # @original_number_of_connections = @matrix.flatten.reduce(:+)
-    # total number of connections, could be: total in degrees - total out degrees (or the other way around?)
   end
 
   def solution_foreseeable?
@@ -73,7 +71,7 @@ class Graph
 # ADVANCING
 
   def advanceable?
-    available_advances.length < 2 || eulerian_cycle_exists? || eulerian_path_exists?
+    available_advances.length == 1 || eulerian_cycle_exists? || eulerian_path_exists?
   end
 
   def advance_to index
@@ -86,8 +84,6 @@ class Graph
   end
 
   def available_advances
-    # require 'pry'; binding.pry
-    # @matrix.each_with_index.map{|x,i| i if x.map{|y| y > 0}.any? }.compact
     @matrix[@start_node].each_with_index.map{|x,i| i if x > 0}.compact
   end
 
@@ -96,12 +92,6 @@ class Graph
   end
 
   def finished?
-    # number of nodes crossed matches original number of connections
-    # start_node is equal to eulerian_cycle_node
-    # @edges_crossed == @original_number_of_connections && @start_node == @eulerian_cycle_node
-    # require 'pry'; binding.pry
-    # !connections_open? && (@start_node == @eulerian_cycle_node || @history.length == @matrix.length + 1)
-    # !connections_open? && (@start_node == @eulerian_cycle_node)
     !connections_open?
   end
 
