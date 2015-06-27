@@ -4,7 +4,7 @@ Over a year ago, my coworkers and I were presented with a graph traversal puzzle
 
 I've been at this for a long time. Today, I have a Ruby solution that's able to solve all 15 graphs on my 2012 dual-core machine in about half a second or less.
 
-The best part is, I didn't even have to mess with any concurrency, threads, crazy functional languages--NONE of that. This solution is in object-oriented Ruby, using iteration, and hours of research on graph theory from Wolfram Alpha and tons of random university professors' course websites.
+The best part is, I didn't even have to mess with any concurrency, threads, crazy functional languages--NONE of that. This solution is in object-oriented Ruby, using iteration, and logic I gleaned from hours of research on graph theory, from Wolfram Alpha and tons of random university professors' course websites.
 
 To run it:
 
