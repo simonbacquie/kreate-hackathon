@@ -8,11 +8,10 @@ The best part is, I didn't even have to mess with any concurrency, threads, craz
 
 To run it:
 
-    bundle install
-    bundle exec ruby main.rb <problem_number>
+    ruby main.rb <problem_number>
 
 Example:
 
-    bundle exec ruby main.rb 5
+    ruby main.rb 5
 
 There are a total of 15 problems. You can see the original graphs under the `images/` folder, which are photographs from a whiteboard at my previous employer's office, plus my own vertex mapping stuff laid on top. The actual data structures representing the graphs can be seen under the `/json` folder.
