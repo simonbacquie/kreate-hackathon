@@ -1,6 +1,8 @@
 # kreate-hackathon
 
-Over a year ago, my coworkers and I were presented with a graph traversal puzzle. I came up with a fairly decent solution in PHP, but it couldn't handle the larger graphs. Even when reserving 2GB of RAM for PHP to run it with, PHP would run out of memory.
+Over a year ago, my coworkers and I were presented with a graph traversal puzzle. To solve it, you have to find every possible path through the graph, where each edge of the graph has been crossed. Some of the graphs get more interesting, where there are edges that must be crossed twice, or edges that can only be crossed in one direction.
+
+I came up with a fairly decent solution in PHP, but it couldn't handle the larger graphs. Even when reserving 2GB of RAM for PHP to run it with, PHP would run out of memory.
 
 I've been at this for a long time. Today, I have a Ruby solution that's able to solve all 15 graphs on my 2012 dual-core machine in about half a second or less.
 
